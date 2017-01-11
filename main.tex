@@ -1,0 +1,91 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage[ddmmyyyy]{datetime}
+\renewcommand{\dateseparator}{/}
+\fancyhead{}
+\usepackage{hyperref}
+\renewcommand{\headrulewidth}{0pt}
+
+\pagestyle{fancy}
+\cfoot{\thepage\hspace{1pt}/\pageref{LastPage}}
+
+
+\begin{document}
+
+
+\begin{wrapfigure}{L}{20px}
+\includegraphics[width=1.5cm,height=1.3cm,keepaspectratio]{ee.png}
+\end{wrapfigure}
+
+Politechnika Warszawska 
+\hfill 11/01/2017
+
+Wydział Elektryczny
+
+
+\quad
+\begin{center}
+\center \Huge Aplikacje typu Offline-First
+\vspace{0.5cm}\\
+\small Jereczek Michał
+\end{center}
+
+\tableofcontents
+\pagebreak
+
+\section{Czym są aplikacje Offline-First?}
+W roku 2017 nie trzeba już nikogo przekonywać, że urządzenia mobilne przejęły rynek. Smartfony i tablety pozwalają nam (programistom) na zdecydowanie większe możliwości przy tworzeniu aplikacji, jednak projektując aplikacje mobilne często zapominamy o dużym ograniczeniu względem aplikacji desktopowych - jakości połączania internetowego.
+
+Offline-First jest ruchem i ideologią mającą na celu przypomnieć nam o tym, że urządzenia mobilne przez swoją przenośną istotę są bardzo podatne na utratę połączenia internetowego. Do najważniejszych czynników, które mogą doprowadzić do utraty połączenia są:
+\begin{itemize}
+\item \textbf{Utrata zasięgu sieci komórkowej} - czynników może być wiele: awaria stacji bazowej, w której zasięgu jest telefon, wjazd do tunelu, przemieszczanie się metrem, zakłócenia sygnałów.
+\item \textbf{Utrata środków na koncie} - zablokowanie internetu przez operatora sieci z powodu niewystarczających środków.
+\item \textbf{Utrata połączenia WiFi} - poprzez wyjście poza zasięg routera bądź jego awarię.
+\end{itemize}
+Najbardziej odczuwalna jest dynamiczność związana z poruszaniem się w obszarach miejskich, telefon co chwila przełącza się między stacjami bazowymi, traci zasięg na rzecz wjazdu do tunelu czy też podróży metrem. 
+
+Naszym zadaniem (zadaniem programistów) jest uwzględnienie tych czynników podczas projektowania aplikacji mobilnej. Bardzo często zapominamy o tym przyzwyczajeni do dobrych warunków w jakich testujemy nasze dzieła.
+
+\section{Najczęściej spotykane błędy}
+Od czego zacząć przy projektowaniu aplikacji mobilnej? Najlepiej od przypomnienia sobie wszystkich momentów, w których utrata sieci w połączeniu z słabo zaprojektowaną aplikacją zirytowały nas jako jej użytkowników. Do najczęstszych błędów należą:
+\begin{itemize}
+\item \textbf{Przeprowadzenie przez całą funkcjonalność aplikacji ostatecznie nie pozwalając jej sfinalizować.} 
+
+Przykładem tutaj może być aplikacja do dzielenia się zdjęciami. Użytkownik nieświadomy braku połączenia dodaje nowe zdjęcie i poświęca kilka minut na jego cudowny opis - w momencie przyciśnięcia magicznego przycisku ,,wyślij'' okazuje się jednak, że nie ma połączenia z internetem. Z takiej sytuacji wyszedł bardzo dobrze Snapchat, jeżeli zaistnieje taka sytuacja to tak zwany snap zostanie zapisany w pamięci aplikacji i wysłany przy najbliższej możliwej okazji.
+\item \textbf{Całkowite zablokowanie funkcji aplikacji bez połączenia z internetem. }
+
+Warto zastanowić się czy wszystko, co udostępnia nasza aplikacja koniecznie musi być poprzedzone przymusowym logowaniem (popularnym teraz jedno-klikiem z Facebook'a czy też innego portalu społecznościowego). Dobre rozwiązanie stosuje tu chociażby Google Music, które pozwala nam na zapisywanie muzyki w pamięci urządzenia, wtedy - jeżeli nie posiadamy połączenia z internetem, możemy uruchomić aplikację w trybie offline i wszystkie wyniki zostaną zawężone do tych z pamięci telefonu.
+\end{itemize}
+\section{Podejście do projektowania}
+O czym warto pamiętać podczas projektowania aplikacji typu Offline-First? Pierwszym ważnym krokiem jest podzielenie funkcjonalności na przykładowe grupy:
+\begin{itemize}
+\item \textbf{Funkcjonalności Online} - te funkcjonalności, które bezwzględnie wymagają połączenia z internetem.
+\item \textbf{Funkcjonalności Online/Offline} - funkcjonalności, które do pełnego rezultatu wymagają połączenia, lecz mogą częściowo działać bez niego.
+\item \textbf{Funkcjonalności Offline} - pozostałe funkcjonalności, które w ogóle nie potrzebują połączenia z internetem.
+\end{itemize}
+Po takiej klasyfikacji należy zastanowić się co można z nimi zrobić. Najważniejszym zadaniem jest przede wszystkim poinformowanie użytkownika, że nie ma połączenia z internetem. Jeżeli użytkownik wszedł właśnie do menu funkcjonalności związanej z połączeniem, to stan połączenia powinien być na bieżąco monitorowany, a użytkownik powinien albo dostać ostrzeżenie, albo widzieć w tle jasną informacją o braku połączenia, a co za tym idzie - ograniczonych możliwościach.
+
+Dobrą praktyką jest również monitorowanie stanu połączenia i po prostu blokowanie dodatkowych opcji z poziomu menu użytkownika (np. wyszarzenie opcji odpowiedzialnej za udostępnianie jakiejś treści online).
+
+Kolejnym ciekawym rozwiązaniem jest przetrzymywanie danych z poprzednich sesji aplikacji, aby pokazać je użytkownikowi gdy nie będzie miał połączenia. Dobrym przykładem jest tutaj aplikacja mobilna Facebooka, która zapisuje w pamięci poprzednią zawartość aktualności i pokazuje je gdy użytkownik nie będzie wstanie ich zaktualizować (oczywiście użytkownik jest informowany, że wyświetlane aktualności nie są aktualne). Dzięki temu użytkownik może z nudów poczytać mniej aktualne informacje (może znajdzie coś co wcześniej przeoczył?).
+
+\section{Podsumowanie}
+Podsumowując. Najważniejszym w aplikacjach Offline-First jest przede wszystkim to abyśmy mieli świadomość o ograniczeniach związanych z połączeniem. Jest to ważny czynnik, o którym trzeba pamiętać już na etapie projektowania aplikacji.
+
+Aktualnie na rynku wygrywają aplikacje, które dostarczają najlepszych wrażeń użytkowania - pamiętając o Offline-First nasz produkt jest znacznie atrakcyjniejszy. \vspace{1cm}\\
+
+\begin{thebibliography}{1}
+
+\bibitem{DATA} {Alex Feyerke, ,,Designing Offline-First Web Apps'' [online][dostęp: 11.01.2017 \url{http://alistapart.com/article/offline-first}}
+
+\end{thebibliography}
+
+\end{document}
